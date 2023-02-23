@@ -1,0 +1,25 @@
+use msdb
+go
+EXEC msdb.dbo.sp_start_job N'BCK_Broken_Chain'
+EXEC dbo.sp_start_job N'AWR_SNAP'
+EXEC dbo.sp_start_job N'AWR_AUTOGROW'
+EXEC dbo.sp_start_job N'AWR_CLEAN_HIS'
+EXEC dbo.sp_start_job N'CommandLog_Cleanup'
+EXEC dbo.sp_start_job N'Cycle_Error_Logs'
+EXEC dbo.sp_start_job N'Database_Integrity_Check'
+EXEC dbo.sp_start_job N'FULL_Backup'
+EXEC dbo.sp_start_job N'LOG_Backup'
+EXEC dbo.sp_start_job N'Output_File_Cleanup'
+EXEC dbo.sp_start_job N'Purge_Jobs_History'
+EXEC dbo.sp_start_job N'Update_Index&statistics'
+use DBA
+go
+exec proc_check_lock
+exec proc_check_rdto
+exec proc_check_job
+exec proc_check_db_status
+SELECT 'insert into t_check_proc_rdto_login_exclude values ('''+ service_account +''')'FROM sys.dm_server_services
+select db_name(database_id)as db_name,name,type_desc, left(physical_name,3)    ,state_desc,size*8/1024 as size,max_size,growth/128 as Growth_MB ,is_percent_growth from sys.master_files;
+SELECT * FROM msdb.dbo.suspect_pages
+RaisError (N'An error occurred Severity 17: Esto es una prueba ! ', 17, 1) With Log
+Go
