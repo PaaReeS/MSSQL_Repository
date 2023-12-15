@@ -2,7 +2,7 @@
  Despues hacer medias con año/mes/01
  Comparamos medias de tiempo totales del mes.
 */
-create procedure proc_dif_bck with encryption
+create procedure proc_diff_bck with encryption
 as
 begin
 SET NOCOUNT ON
@@ -11,8 +11,8 @@ declare @v_month integer
 declare @v_year integer
 select @v_month = case when month(getdate())=1 then 12 else month(getdate())-1 end , @v_year = case when month(getdate())=1 then year(getdate())-1 else year(getdate()) end
 
-if ((select COUNT(1) from dba_hist_dif_bck) = 0)
-	insert into dba_hist_dif_bck
+if ((select COUNT(1) from dba_hist_diff_bck) = 0)
+	insert into dba_hist_diff_bck
 	select  
 	RunDateTime
 	, step_name
@@ -32,12 +32,12 @@ if ((select COUNT(1) from dba_hist_dif_bck) = 0)
 
 /*Definimos @AVG_Duration, pendiente decidir si desde tabla con medias o se calcula cada vez*/
 select @AVG_Duration=isnull(nullif(nullif(sum(RunDurationMinutes),0)/count(1),0) ,1)
-From dba_hist_dif_bck
+From dba_hist_diff_bck
 where year(rundatetime)= @v_year
 and month(rundatetime)= @v_month
 
 /*Calculamos diferencia respecto a la media de los ultimo X dias*/
-insert into dba_hist_dif_bck
+insert into dba_hist_diff_bck
 select  
 RunDateTime
 , step_name
@@ -52,7 +52,7 @@ from(
 	, @AVG_Duration as AVG_Duration
 	From msdb.dbo.sysjobhistory h 
 	where step_name='FULL_Backup'
-	and msdb.dbo.agent_datetime(run_date, run_time) not in (select rundatetime from dba_hist_dif_bck)
+	and msdb.dbo.agent_datetime(run_date, run_time) not in (select rundatetime from dba_hist_diff_bck)
 	) z
 
 end

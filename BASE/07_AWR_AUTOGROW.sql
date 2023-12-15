@@ -18,7 +18,8 @@ EXEC msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'AWR_AUTOGROW',
 		@step_id=1, 
 		@os_run_priority=0, 
 		@subsystem=N'TSQL', 
-		@command=N'exec dbo.proc_autogrow', 
+		@command=N'exec dbo.proc_autogrow
+		exec proc_diff_bck', 
 		@database_name=N'DBA' 
 	
 EXEC msdb.dbo.sp_update_job @job_id = @jobId, @start_step_id = 1
