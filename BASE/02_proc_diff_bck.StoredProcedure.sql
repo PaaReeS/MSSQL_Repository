@@ -31,7 +31,7 @@ if ((select COUNT(1) from dba_hist_diff_bck) = 0)
 		
 
 /*Definimos @AVG_Duration, pendiente decidir si desde tabla con medias o se calcula cada vez*/
-select @AVG_Duration=isnull(nullif(nullif(sum(RunDurationMinutes),0)/count(1),0) ,1)
+select @AVG_Duration=isnull(nullif(nullif(sum(rundurationminutes),0)/count(1),0) ,1)
 From dba_hist_diff_bck
 where year(rundatetime)= @v_year
 and month(rundatetime)= @v_month
