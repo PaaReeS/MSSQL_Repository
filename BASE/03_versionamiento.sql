@@ -1,0 +1,1 @@
+INSERT [dbo].[t_parametros] ([keyid],[parametro],[valor]) VALUES (1, N'VERSION', 1.0)
