@@ -15,6 +15,8 @@ INSERT [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2
 INSERT [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2], [valor2], [comentario], [parentkeyid]) VALUES (40, N'CHECK_DB_LOG_SIZE', N'ACTIVO', N'SI', NULL, NULL, NULL, NULL)
 INSERT [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2], [valor2], [comentario], [parentkeyid]) VALUES (41, N'CHECK_DB_LOG_SIZE', N'WARNING', N'30.00', N'CRITICAL', N'20.00', NULL, 40)
 INSERT [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2], [valor2], [comentario], [parentkeyid]) VALUES (50,'PROC_TRUNCATE_AWR','DAYS_HISTORY',365,null,null,null,null)
+insert [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2], [valor2], [comentario], [parentkeyid]) VALUES (60,'dba_hist_diff_bck','percentage_variable','35','avg_duration','25',NULL,NULL);
+insert [dbo].[t_parametros] ([keyid], [clase], [parametro], [valor], [parametro2], [valor2], [comentario], [parentkeyid]) VALUES (61,'dba_hist_diff_integrity','percentage_variable','35','avg_duration','60',NULL,NULL);
 --------------------------------
 INSERT [dbo].[dba_hist_control] ([procname], [metric_code], [metric_base], [metric_name]) VALUES (N'proc_awr_top_sp', N'ec', N'execution_count', N'execution_count')
 INSERT [dbo].[dba_hist_control] ([procname], [metric_code], [metric_base], [metric_name]) VALUES (N'proc_awr_top_sp', N'wt', N'total_worker_time', N'total_worker_time')
@@ -35,21 +37,16 @@ INSERT [dbo].[dba_hist_control] ([procname], [metric_code], [metric_base], [metr
 
 
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'LOG_Backup',N'S',N'WARNING',NULL,125,NULL,'DBA TEAM','email@email.com'); 
-
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'FULL_Backup',N'S',N'WARNING',NULL,1560,NULL,'DBA TEAM','email@email.com');
-
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Check_sysMail',N'S',N'WARNING',NULL,840,NULL,'DBA TEAM','email@email.com');
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Cycle_Error_Logs',N'S',N'WARNING',NULL,1440,NULL,'DBA TEAM','email@email.com');
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Database_Integrity_Check',N'S',N'WARNING',NULL,1800, NULL,'DBA TEAM','email@email.com');
-INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Output_File_Cleanup',N'S',N'WARNING',NULL,44640,NULL,'DBA TEAM','email@email.com');
-INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Purge_Jobs_History',N'S',N'WARNING',NULL,10080,NULL,'DBA TEAM','email@email.com');
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'Update_Index&statistics',N'S',N'WARNING',NULL,1800,NULL,'DBA TEAM','email@email.com');
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'CommandLog_Cleanup',N'S',N'WARNING',NULL,44640,NULL,'DBA TEAM','email@email.com');
 INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'BCK_Broken_Chain',N'S',N'WARNING',NULL,200,NULL,'DBA TEAM','email@email.com');
-
-INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL, N'AWR_SNAP', N'S', N'WARNING', NULL, 80, NULL,'DBA TEAM','email@email.com');
-INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL, N'AWR_AUTOGROW', N'S', N'WARNING', NULL, 720, NULL,'DBA TEAM','email@email.com');
-INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL, N'AWR_CLEAN_HIS', N'S', N'WARNING', NULL, 21600, NULL,'DBA TEAM','email@email.com');
+INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'DBA_Cleanup',N'S',N'WARNING',NULL,10100,NULL,'SOTHIS DBA TEAM','dba.cosu@sothis.tech');
+INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL, N'DBA_AWR', N'S', N'WARNING', NULL, 80, NULL,'SOTHIS DBA TEAM','dba.cosu@sothis.tech');
+INSERT [dbo].[t_check_jobs] ([owner], [job_name], [enabled], [level_inc], [limit_failures], [interval_min], [fecha_fin_exclusion], [responsible_dept], [responsible_email]) VALUES (NULL,N'DBA_Alert',N'S',N'WARNING',NULL,480,NULL,'SOTHIS DBA TEAM','dba.cosu@sothis.tech');
 --------------------------------
 insert into dba_hist_wait_class values('SIN_GRUPO','RESTORE_FILEHANDLECACHE_LOCK');
 insert into dba_hist_wait_class values('SIN_GRUPO','PREEMPTIVE_XE_TARGETFINALIZE');
